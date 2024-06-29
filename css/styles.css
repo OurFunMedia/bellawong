@@ -8249,6 +8249,16 @@ textarea.form-control-lg {
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.text-brown {
+  --bs-text-opacity: 1;
+  color: rgba(89, 6, 10, 1) !important;
+}
+
+.text-brown-50 {
+  --bs-text-opacity: 1;
+  color: rgba(89, 6, 10, 0.5) !important;
+}
+
 .text-reset {
   --bs-text-opacity: 1;
   color: inherit !important;
@@ -11088,7 +11098,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(236, 184, 138, 0) 0%, rgba(236, 184, 138, 0.5) 75%, #ECB88A 100%), url("../assets/img/bg_index.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_index.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11100,7 +11110,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(236, 184, 138, 0) 0%, rgba(236, 184, 138, 0.5) 75%, #ECB88A 100%), url("../assets/img/bg_therapy.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_therapy.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11112,7 +11122,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(236, 184, 138, 0) 0%, rgba(236, 184, 138, 0.5) 75%, #ECB88A 100%), url("../assets/img/bg_movement.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_movement.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11124,7 +11134,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(236, 184, 138, 0) 0%, rgba(236, 184, 138, 0.5) 75%, #ECB88A 100%), url("../assets/img/bg_online.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_online.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11136,7 +11146,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(236, 184, 138, 0) 0%, rgba(236, 184, 138, 0.5) 75%, #ECB88A 100%), url("../assets/img/bg_teacher.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_teacher.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11181,7 +11191,7 @@ body {
 .part_01-section {
   padding-top: 10rem;
   /*background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);*/
-  background: #ECB88A;
+  background: #f2e0d0;
 }
 .part_01-section p {
   margin-bottom: 5rem;
