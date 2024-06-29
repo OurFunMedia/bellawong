@@ -54,7 +54,6 @@
   --bs-dark-rgb: 33, 37, 41;
   --bs-black-rgb: 0, 0, 0;
   --bs-white-rgb: 255, 255, 255;
-  --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 33, 37, 41;
   --bs-body-bg-rgb: 255, 255, 255;
@@ -8333,7 +8332,7 @@ textarea.form-control-lg {
 
 .bg-bella02 {
   --bs-bg-opacity: 1;
-  background-color: #E1A679
+  background-color: #FAD689
 }
 
 .bg-bella03 {
