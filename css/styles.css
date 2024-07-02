@@ -8244,6 +8244,11 @@ textarea.form-control-lg {
   color: rgba(0, 0, 0, 0.5) !important;
 }
 
+.text-black-80 {
+  --bs-text-opacity: 1;
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+
 .text-white-50 {
   --bs-text-opacity: 1;
   color: rgba(255, 255, 255, 0.8) !important;
@@ -8251,12 +8256,12 @@ textarea.form-control-lg {
 
 .text-brown {
   --bs-text-opacity: 1;
-  color: rgba(89, 6, 10, 1) !important;
+  color: rgba(40, 25, 22, 1) !important;
 }
 
-.text-brown-50 {
+.text-brown-80 {
   --bs-text-opacity: 1;
-  color: rgba(89, 6, 10, 0.5) !important;
+  color: rgba(100, 69, 67, 0.8) !important;
 }
 
 .text-reset {
