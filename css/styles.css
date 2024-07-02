@@ -11020,14 +11020,14 @@ body {
 #mainNav .navbar-toggler {
   font-size: 80%;
   padding: 0.75rem;
-  color: #855B32;
-  border: 1px solid #855B32;
+  color: #281916;
+  border: 1px solid #281916;
 }
 #mainNav .navbar-toggler:focus {
   outline: none;
 }
 #mainNav .navbar-brand {
-  color: #855B32;
+  color: #281916;
   font-weight: 700;
   padding: 0.9rem 0;
 }
