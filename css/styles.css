@@ -76,7 +76,7 @@
   --bs-border-radius-xl: 1rem;
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
-  --bs-link-color: #000000;
+  --bs-link-color: #000000cc;
   --bs-link-hover-color: #301e0c;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #faf4e0;
@@ -8352,7 +8352,7 @@ textarea.form-control-lg {
 
 .bg-bella03 {
   --bs-bg-opacity: 1;
-  background-color: #C78550
+  background-color: #f2e0d0
 }
 
 .bg-body {
