@@ -11115,7 +11115,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_therapy.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_movement.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11151,7 +11151,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_teacher.jpg");
+  background: linear-gradient(to bottom, rgba(242, 224, 208, 0) 0%, rgba(242, 224, 208, 0.5) 75%, #f2e0d0 100%), url("../assets/img/bg_therapy.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11194,7 +11194,7 @@ body {
 }
 
 .part_01-section {
-  padding-top: 10rem;
+  padding-top: 1rem;
   /*background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);*/
   background: #f2e0d0;
 }
@@ -11203,7 +11203,7 @@ body {
 }
 
 .part_02-section {
-  padding: 10rem 0;
+  padding: 3rem 0;
 }
 .part_02-section .featured-text {
   padding: 2rem;
