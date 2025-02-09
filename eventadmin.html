@@ -47,12 +47,18 @@
                         <small class="form-text text-muted">單張圖片時使用的主要圖片 URL</small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Upload Image</label>
-                        <input type="file" class="form-control" id="imageUpload" accept="image/*,video/*" multiple>
+                        <label class="form-label">Upload Files</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="imageUpload" accept="image/*,video/*" multiple>
+                            <button class="btn btn-primary" type="button" id="uploadButton">Upload</button>
+                        </div>
                         <small class="form-text text-muted">
                             可以上傳圖片或影片。支援多選文件。<br>
                             所有文件將保存在 assets/event/ 目錄中。
                         </small>
+                        <div id="uploadProgress" class="progress mt-2" style="display: none;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Is Video?</label>
@@ -239,28 +245,59 @@
             }
         }
 
-        document.getElementById('imageUpload').addEventListener('change', async function(e) {
-            const files = Array.from(e.target.files);
-            if (files.length === 0) return;
+        document.getElementById('uploadButton').addEventListener('click', async function() {
+            const fileInput = document.getElementById('imageUpload');
+            const files = Array.from(fileInput.files);
+            if (files.length === 0) {
+                alert('Please select files to upload');
+                return;
+            }
 
+            const progressBar = document.querySelector('#uploadProgress .progress-bar');
+            const progressDiv = document.getElementById('uploadProgress');
+            progressDiv.style.display = 'block';
+            progressBar.style.width = '0%';
+            
             try {
-                const uploadedUrls = await Promise.all(files.map(file => uploadFile(file)));
+                const totalFiles = files.length;
+                const uploadedUrls = [];
+                
+                for (let i = 0; i < files.length; i++) {
+                    const url = await uploadFile(files[i]);
+                    if (url) {
+                        uploadedUrls.push(url);
+                    }
+                    // 更新進度條
+                    const progress = ((i + 1) / totalFiles * 100).toFixed(0);
+                    progressBar.style.width = progress + '%';
+                    progressBar.textContent = progress + '%';
+                }
                 
                 const successfulUploads = uploadedUrls.filter(url => url !== null);
                 
                 if (successfulUploads.length > 0) {
                     if (successfulUploads.length === 1) {
+                        // 如果只上傳了一個文件，設置為主圖
                         document.getElementById('eventImage').value = successfulUploads[0];
                         
+                        // 如果是視頻，自動勾選視頻選項
                         const file = files[0];
                         document.getElementById('isVideo').checked = file.type.startsWith('video/');
                     } else {
+                        // 如果上傳了多個文件，設置為輪播圖片
                         document.getElementById('carouselImages').value = successfulUploads.join(', ');
                     }
                     alert('Files uploaded successfully');
                 }
             } catch (error) {
                 handleError(error, 'Error uploading files');
+            } finally {
+                // 隱藏進度條
+                setTimeout(() => {
+                    progressDiv.style.display = 'none';
+                    progressBar.style.width = '0%';
+                    progressBar.textContent = '';
+                }, 1000);
             }
         });
 
