@@ -14,6 +14,14 @@
       "image": "assets/video/yoga_retreat.mp4",
       "capacity": null,
       "isVideo": true
+    },
+    {
+      "title": "test9",
+      "date": "2025-02-09",
+      "description": "Hello 9",
+      "image": "assets/event/1739104035252_workshop01.jpg",
+      "capacity": null,
+      "isVideo": false
     }
   ]
 }
