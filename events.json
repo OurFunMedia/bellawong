@@ -14,14 +14,6 @@
       "image": "assets/video/yoga_retreat.mp4",
       "capacity": null,
       "isVideo": true
-    },
-    {
-      "title": "Test9",
-      "date": "2025-02-09",
-      "description": "Hi Hi",
-      "image": "assets/event/BellaWong.jpg",
-      "capacity": null,
-      "isVideo": false
     }
   ]
 }
