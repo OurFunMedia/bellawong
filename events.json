@@ -16,16 +16,12 @@
       "isVideo": true
     },
     {
-      "title": "Test3",
+      "title": "Test5",
       "date": "2025-02-09",
-      "description": "hello",
+      "description": "Hi Hi",
       "image": "assets/info/img_20250315.jpg",
       "capacity": null,
-      "isVideo": false,
-      "carousel": [
-        "assets/info/1day_balance_1.jpg",
-        "assets/info/1day_balance_2.jpg"
-      ]
+      "isVideo": false
     }
   ]
 }
