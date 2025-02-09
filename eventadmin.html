@@ -150,6 +150,30 @@
         </div>
     </div>
 
+    <!-- 在 container div 結束前添加輪播圖片選擇的模態框 -->
+    <div class="modal fade" id="carouselBrowserModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Carousel Images</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="carouselFileSearch" placeholder="Search images...">
+                    </div>
+                    <div class="row" id="carouselFileList">
+                        <!-- 圖片列表將在這裡動態生成 -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="useSelectedCarouselImages()">Use Selected Images</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let githubToken = '';
         const repo = 'OurFunMedia/bellawong';
