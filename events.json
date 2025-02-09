@@ -16,16 +16,12 @@
       "isVideo": true
     },
     {
-      "title": "test10",
+      "title": "test11",
       "date": "2025-02-09",
-      "description": "Hello 10",
-      "image": "assets/event/1739104035252_workshop01.jpg",
+      "description": "Hi Hi 11 MP4",
+      "image": "assets/event/1739106178710_yoga_retreat.mp4",
       "capacity": null,
-      "isVideo": false,
-      "carousel": [
-        "assets/event/1739104035252_workshop01.jpg",
-        "assets/event/BellaWong.jpg"
-      ]
+      "isVideo": true
     }
   ]
 }
