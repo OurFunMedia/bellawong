@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,7 +19,92 @@
             $(function(){
                 $("#navbar").load("navbar_sub.html");
                 $("#contact").load("contact.html");
+                loadEvents();
             });
+
+            async function loadEvents() {
+                try {
+                    const response = await fetch('events.json');
+                    const data = await response.json();
+                    displayEvents(data.events);
+                } catch (error) {
+                    console.error('Error loading events:', error);
+                }
+            }
+
+            function displayEvents(events) {
+                const container = document.querySelector('#part_02 .container');
+                let html = '<div class="row gx-0 mb-4 mb-lg-5 align-items-center text-center"><h3 class="text-brown">Special Events</h3></div>';
+                
+                events.forEach(event => {
+                    html += `
+                        <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="info_02">
+                            <div class="col-xl-8 col-lg-7">
+                                <div class="row justify-content-center">
+                                    ${event.carousel ? renderCarousel(event.carousel) : 
+                                     event.isVideo ? renderVideo(event.image) :
+                                     `<img class="img-fluid mb-3 mb-lg-0 w-60" src="${event.image}" alt="Bella Wong" />`}
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-5">
+                                <div class="featured-text text-center text-lg-left">
+                                    <p class="text-brown-80">
+                                        <br>
+                                        <h4 class="text-brown">${event.title}</h4><br>
+                                        ${event.description.split('\n').join('<br>')}
+                                    </p>
+                                    <br><br>
+                                    <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a>
+                                    <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a>
+                                    <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a>
+                                    <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            }
+
+            function renderCarousel(images) {
+                return `
+                    <div id="carouselExampleIndicators" class="carousel slide w-60" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            ${images.map((_, i) => `
+                                <button type="button" data-bs-target="#carouselExampleIndicators" 
+                                    data-bs-slide-to="${i}" 
+                                    ${i === 0 ? 'class="active" aria-current="true"' : ''} 
+                                    aria-label="Slide ${i + 1}">
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="carousel-inner">
+                            ${images.map((img, i) => `
+                                <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                                    <img src="${img}" class="d-block w-100" alt="Bella Wong">
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            function renderVideo(videoUrl) {
+                return `
+                    <video autoplay controls muted loop class="w-60">
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>
+                `;
+            }
         </script>
     </head>
     <body id="page-top">
@@ -32,7 +116,6 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">Special Events<br>&<br>Training</h1>
-                        <!-- <h2 class="text-white-50 mx-auto mt-2 mb-5">Yoga combines poses, breath, meditation. Originated in ancient India, spread globally.</h2> -->
                     </div>
                 </div>
             </div>
@@ -42,198 +125,9 @@
         <section class="part_02-section bg-light" id="part_02">
             <div class="container px-4 px-lg-5">
                 <!-- Featured Project Row-->
-                <!-- <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/img_teacher2.jpg" alt="Bella Wong" /></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h3 class="text-brown">Teaching Training</h3>
-                            <p class="text-brown-80 mb-0">
-                                200小時瑜伽師資培育課程(第七屆)<br>Refinement 200hrs YTTC<br>( Coming soon )<br>
-                                <br>
-                                上課時間: 2024年 9月21日 至 11月17日<br>
-                                周六、日 及 部份公眾假期 Sat Sun & Public Holidays 09:00-19:00
-                            </p>
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div> -->
+
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center text-center"><h3 class="text-brown">Special Events</h3></div>
-
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="info_02">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="row justify-content-center">
-                            <div id="carouselExampleIndicators" class="carousel slide w-60" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="assets/info/1day_balance_1.jpg" class="d-block w-100" alt="Bella Wong">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="assets/info/1day_balance_2.jpg" class="d-block w-100" alt="Bella Wong">
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <!--<h3>Special Events</h3>-->
-                            <p class="text-brown-80">
-                                <br>
-                                <h4 class="text-brown">Join Us for A Day of Balance:<br>One-Day Yoga Retreat!</h4><br> 
-                                Date: 12 January 2025<br>
-                                Capacity: 22 participants<br>
-                                For more information,<br>please get in touch with me<br>
-                                <br>
-                                *Event Highlights*<br>
-                                - Delicious vegetarian lunch & BBQ dinner<br>
-                                - Refreshing Pranayama ice bath<br>
-                                - Invigorating vinyasa<br>
-                                - Warm stretches<br>
-                                - Meditation healing sound bath<br>
-                            </p>
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="info_02">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="row justify-content-center">
-                            <div id="carouselExampleIndicators" class="carousel slide w-60" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="assets/info/workshop_01.jpg" class="d-block w-100" alt="Bella Wong">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="assets/info/workshop_02.jpg" class="d-block w-100" alt="Bella Wong">
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <p class="text-brown-80">
-                                <br>
-                                <h4 class="text-brown">Be a family Healer Workshop</h4><br> 
-                                2024年12月28日(星期六)<br><br>
-                                了解聲音治療<br>
-                                Understanding Sound Therapy<br>
-                                淺談家庭心理學理論<br>
-                                Brief Discussion on Family Psychology Theories<br>
-                                能量轉換技巧<br>
-                                Techniques for Energy Transformation<br>
-                                基礎頌缽使用手法<br>
-                                Fundamentals of Singing Bowl Practice<br>
-                                2套聲音治療手法<br>
-                                Two Sets of Sound Therapy Methods<br>
-                                (Using Single Singing Bowl)<br><br>
-                                單人$800, 二人同行$1500<br>(優惠價11月29日前付款)
-                            </p>
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div> -->
-
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="info_02">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="row justify-content-center"><img class="img-fluid mb-3 mb-lg-0 w-60" src="assets/info/img_20250131.jpg" alt="Bella Wong" /></div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <!--<h3>Special Events</h3>-->
-                            <p class="text-brown-80">
-                                <br>
-                                <h4 class="text-brown">Cobra Party 蛇年派對</h4><br> 
-                                -Pranayama<br>
-                                -Bhakti Chant<br>
-                                -Yoga Nidra<br>
-                                -Cobra Asana Practice<br><br>
-                                $318/p ( Before 18/Jan $288 )<br>
-                                日期 Date : 31 Jan 2025<br>
-                                時間 Time : 12:15-14:15 pm
-                                <br><br>
-                                Location : Sheung Wan
-                            </p>
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="info_02">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="row justify-content-center"><img class="img-fluid mb-3 mb-lg-0 w-60" src="assets/info/img_20250315.jpg" alt="Bella Wong" /></div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <!--<h3>Special Events</h3>-->
-                            <p class="text-brown-80">
-                                <br>
-                                <h4 class="text-brown">Unique Mala Workshop</h4><br> 
-                                <br><br>
-                                $2400 ( $1900 sign before 15 Feb )<br>
-                                日期 Date : 15 March 2025<br>
-                                時間 Time : 13:00-17:00
-                            </p>
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
                 
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="info_03">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="row justify-content-center">
-                            <!-- <img class="img-fluid mb-3 mb-lg-0" src="assets/temp/Nepal.jpg" width="60%" alt="..." /> -->
-                            <video autoplay controls muted loop class="w-60">
-                                <source src="assets/video/yoga_retreat.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <!--<h3>Special Events</h3>-->
-                            <p class="text-brown-80">
-                                <br>
-                                <h4 class="text-brown">In-depth yoga travel in Nepal 2025</h4><br> 
-                                (Yoga & Sound therapy)
-                                <br><br>
-                                7-18 Feb 2025<br>
-                                Contact for the details
-                            </p>
-                            <br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
