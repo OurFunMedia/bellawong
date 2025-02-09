@@ -11,6 +11,21 @@
             max-width: 200px;
             max-height: 200px;
         }
+        .modal-lg {
+            max-width: 90%;
+        }
+        
+        .file-card {
+            cursor: pointer;
+        }
+        
+        .file-card:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .file-card.selected {
+            background-color: #e9ecef;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +73,34 @@
                         </small>
                         <div id="uploadProgress" class="progress mt-2" style="display: none;">
                             <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">File Browser</label>
+                        <button type="button" class="btn btn-info" onclick="loadFileList()">Browse Files</button>
+                        
+                        <!-- 文件瀏覽模態框 -->
+                        <div class="modal fade" id="fileBrowserModal" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">File Browser</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="fileSearch" placeholder="Search files...">
+                                        </div>
+                                        <div class="row" id="fileList">
+                                            <!-- 文件列表將在這裡動態生成 -->
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="useSelectedFiles()">Use Selected Files</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -400,6 +443,107 @@
         function handleError(error, message) {
             console.error(message, error);
             alert(`${message}: ${error.message}`);
+        }
+
+        // 添加新的文件瀏覽相關函數
+        let fileBrowserModal;
+        let selectedFiles = [];
+
+        window.onload = function() {
+            fileBrowserModal = new bootstrap.Modal(document.getElementById('fileBrowserModal'));
+        };
+
+        async function loadFileList() {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${repo}/contents/assets/event`, {
+                    headers: {
+                        'Authorization': `token ${githubToken}`
+                    }
+                });
+                const files = await response.json();
+                
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = files.map(file => `
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                ${file.type === 'file' ? `
+                                    <div class="form-check">
+                                        <input class="form-check-input file-select" type="checkbox" 
+                                               value="assets/event/${file.name}" id="file-${file.name}"
+                                               data-file-type="${getFileType(file.name)}">
+                                        <label class="form-check-label" for="file-${file.name}">
+                                            ${file.name}
+                                        </label>
+                                    </div>
+                                    ${isImageFile(file.name) ? `
+                                        <img src="assets/event/${file.name}" class="img-fluid mt-2" style="max-height: 100px;">
+                                    ` : isVideoFile(file.name) ? `
+                                        <video class="img-fluid mt-2" style="max-height: 100px;">
+                                            <source src="assets/event/${file.name}" type="video/mp4">
+                                        </video>
+                                    ` : ''}
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // 添加文件搜索功能
+                document.getElementById('fileSearch').addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const cards = fileList.querySelectorAll('.col-md-4');
+                    cards.forEach(card => {
+                        const fileName = card.querySelector('label').textContent.toLowerCase();
+                        card.style.display = fileName.includes(searchTerm) ? '' : 'none';
+                    });
+                });
+
+                fileBrowserModal.show();
+            } catch (error) {
+                handleError(error, 'Error loading file list');
+            }
+        }
+
+        function useSelectedFiles() {
+            const selectedCheckboxes = document.querySelectorAll('.file-select:checked');
+            const selectedFiles = Array.from(selectedCheckboxes).map(cb => ({
+                path: cb.value,
+                type: cb.dataset.fileType
+            }));
+
+            if (selectedFiles.length === 0) {
+                alert('Please select at least one file');
+                return;
+            }
+
+            if (selectedFiles.length === 1) {
+                // 單個文件：設置為主圖或視頻
+                document.getElementById('eventImage').value = selectedFiles[0].path;
+                document.getElementById('isVideo').checked = selectedFiles[0].type === 'video';
+                document.getElementById('carouselImages').value = '';
+            } else {
+                // 多個文件：設置為輪播圖片
+                const imageFiles = selectedFiles.filter(f => f.type === 'image');
+                if (imageFiles.length > 0) {
+                    document.getElementById('carouselImages').value = imageFiles.map(f => f.path).join(', ');
+                    document.getElementById('eventImage').value = imageFiles[0].path;
+                }
+            }
+
+            fileBrowserModal.hide();
+        }
+
+        function getFileType(filename) {
+            return isVideoFile(filename) ? 'video' : 'image';
+        }
+
+        function isImageFile(filename) {
+            return /\.(jpg|jpeg|png|gif)$/i.test(filename);
+        }
+
+        function isVideoFile(filename) {
+            return /\.(mp4|webm|ogg)$/i.test(filename);
         }
     </script>
 </body>
