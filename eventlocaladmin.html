@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Local Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div id="adminPanel">
+            <h2>Event Management (Local Version)</h2>
+            
+            <!-- 添加載入 JSON 文件的功能 -->
+            <div class="mb-4">
+                <h3>Load Events</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="file" class="form-control" id="jsonFileInput" accept=".json">
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary" onclick="loadJsonFile()">Load JSON File</button>
+                        <button class="btn btn-info" onclick="loadFromUrl()">Load from events.json</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success mb-3" onclick="showAddEventForm()">Add New Event</button>
+            
+            <div id="eventForm" style="display: none;" class="mb-4">
+                <h3>Event Form</h3>
+                <form id="eventDataForm">
+                    <input type="hidden" id="editIndex">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="eventTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description (Markdown supported)</label>
+                        <textarea class="form-control" id="eventDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control" id="eventDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" class="form-control" id="eventImage" required>
+                        <small class="form-text text-muted">單張圖片時使用的主要圖片 URL</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Capacity (optional)</label>
+                        <input type="number" class="form-control" id="eventCapacity">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Is Video?</label>
+                        <input type="checkbox" id="isVideo">
+                        <small class="form-text text-muted">如果是影片檔案請勾選</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Carousel Images (comma-separated URLs, optional)</label>
+                        <input type="text" class="form-control" id="carouselImages">
+                        <small class="form-text text-muted">
+                            輪播圖片設置說明：<br>
+                            1. 多張圖片請用逗號分隔<br>
+                            2. 示例：assets/info/image1.jpg, assets/info/image2.jpg<br>
+                            3. 如果設置了輪播圖片，主圖將被忽略<br>
+                            4. 圖片路徑可以是相對路徑或完整URL
+                        </small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preview</label>
+                        <div id="markdownPreview"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Event</button>
+                    <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
+                </form>
+            </div>
+
+            <div id="eventList" class="mt-4">
+                <!-- Events will be listed here -->
+            </div>
+
+            <div class="mt-4">
+                <h3>Export JSON</h3>
+                <textarea id="jsonOutput" class="form-control" rows="10" readonly></textarea>
+                <button class="btn btn-primary mt-2" onclick="copyToClipboard()">Copy to Clipboard</button>
+                <button class="btn btn-success mt-2" onclick="downloadJson()">Download JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let events = {
+            events: []
+        };
+
+        // 修改 window.onload 函數
+        window.onload = async function() {
+            try {
+                // 嘗試從 events.json 載入數據
+                await loadFromUrl();
+            } catch (error) {
+                console.error('Error loading events.json:', error);
+                // 如果載入失敗，使用 localStorage 的數據
+                loadFromLocalStorage();
+            }
+        };
+
+        // 從 localStorage 載入數據
+        function loadFromLocalStorage() {
+            const savedEvents = localStorage.getItem('events');
+            if (savedEvents) {
+                events = JSON.parse(savedEvents);
+            }
+            displayEvents(events.events);
+            updateJsonOutput();
+        }
+
+        // 從 URL 載入 events.json
+        async function loadFromUrl() {
+            try {
+                const response = await fetch('events.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load events.json');
+                }
+                events = await response.json();
+                displayEvents(events.events);
+                updateJsonOutput();
+                saveEvents(); // 保存到 localStorage
+                alert('Successfully loaded events.json');
+            } catch (error) {
+                console.error('Error loading events.json:', error);
+                alert('Error loading events.json: ' + error.message);
+            }
+        }
+
+        // 從上傳的文件載入 JSON
+        function loadJsonFile() {
+            const fileInput = document.getElementById('jsonFileInput');
+            const file = fileInput.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        events = JSON.parse(e.target.result);
+                        displayEvents(events.events);
+                        updateJsonOutput();
+                        saveEvents(); // 保存到 localStorage
+                        alert('Successfully loaded JSON file');
+                    } catch (error) {
+                        console.error('Error parsing JSON file:', error);
+                        alert('Error parsing JSON file: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Please select a JSON file');
+            }
+        }
+
+        // 修改 saveEvents 函數，添加保存到文件的功能
+        async function saveEvents() {
+            // 保存到 localStorage
+            localStorage.setItem('events', JSON.stringify(events));
+            
+            // 更新顯示
+            displayEvents(events.events);
+            updateJsonOutput();
+        }
+
+        function displayEvents(eventsList) {
+            const eventList = document.getElementById('eventList');
+            eventList.innerHTML = eventsList.map((event, index) => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">${event.title}</h5>
+                        <p class="card-text">${event.date}</p>
+                        <img src="${event.image}" class="preview-image mb-2">
+                        <div class="markdown-content">${marked.parse(event.description)}</div>
+                        <button class="btn btn-warning" onclick="editEvent(${index})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteEvent(${index})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showAddEventForm() {
+            document.getElementById('eventForm').style.display = 'block';
+            document.getElementById('editIndex').value = '';
+            document.getElementById('eventDataForm').reset();
+        }
+
+        function cancelEdit() {
+            document.getElementById('eventForm').style.display = 'none';
+        }
+
+        function editEvent(index) {
+            const event = events.events[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventDescription').value = event.description;
+            document.getElementById('eventDate').value = event.date;
+            document.getElementById('eventImage').value = event.image;
+            document.getElementById('eventCapacity').value = event.capacity || '';
+            document.getElementById('isVideo').checked = event.isVideo || false;
+            document.getElementById('carouselImages').value = event.carousel ? event.carousel.join(', ') : '';
+            
+            document.getElementById('markdownPreview').innerHTML = marked.parse(event.description);
+            document.getElementById('eventForm').style.display = 'block';
+        }
+
+        function deleteEvent(index) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                events.events.splice(index, 1);
+                saveEvents();
+                displayEvents(events.events);
+                updateJsonOutput();
+            }
+        }
+
+        document.getElementById('eventDescription').addEventListener('input', function() {
+            const preview = document.getElementById('markdownPreview');
+            preview.innerHTML = marked.parse(this.value);
+        });
+
+        document.getElementById('eventDataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const editIndex = document.getElementById('editIndex').value;
+            const carouselImagesStr = document.getElementById('carouselImages').value;
+            
+            const newEvent = {
+                title: document.getElementById('eventTitle').value,
+                date: document.getElementById('eventDate').value,
+                description: document.getElementById('eventDescription').value,
+                image: document.getElementById('eventImage').value,
+                capacity: document.getElementById('eventCapacity').value || null,
+                isVideo: document.getElementById('isVideo').checked
+            };
+
+            if (carouselImagesStr.trim()) {
+                newEvent.carousel = carouselImagesStr.split(',').map(url => url.trim());
+            }
+
+            if (editIndex === '') {
+                events.events.push(newEvent);
+            } else {
+                events.events[editIndex] = newEvent;
+            }
+
+            saveEvents();
+            displayEvents(events.events);
+            updateJsonOutput();
+            
+            document.getElementById('eventForm').style.display = 'none';
+            document.getElementById('eventDataForm').reset();
+        });
+
+        function updateJsonOutput() {
+            document.getElementById('jsonOutput').value = JSON.stringify(events, null, 2);
+        }
+
+        function copyToClipboard() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            jsonOutput.select();
+            document.execCommand('copy');
+            alert('JSON copied to clipboard!');
+        }
+
+        function downloadJson() {
+            const jsonString = JSON.stringify(events, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'events.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html> 
