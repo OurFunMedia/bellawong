@@ -16,12 +16,16 @@
       "isVideo": true
     },
     {
-      "title": "test9",
+      "title": "test10",
       "date": "2025-02-09",
-      "description": "Hello 9",
+      "description": "Hello 10",
       "image": "assets/event/1739104035252_workshop01.jpg",
       "capacity": null,
-      "isVideo": false
+      "isVideo": false,
+      "carousel": [
+        "assets/event/1739104035252_workshop01.jpg",
+        "assets/event/BellaWong.jpg"
+      ]
     }
   ]
 }
