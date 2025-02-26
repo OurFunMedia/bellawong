@@ -3,9 +3,10 @@
     {
       "title": "Unique Mala Workshop",
       "date": "2025-03-15",
-      "description": "$2400 ( $1900 sign before 15 Feb )\n日期 Date : 15 March 2025\n時間 Time : 13:00-17:00",
+      "description": "日期 Date : 15 March 2025\n時間 Time : 13:00-17:00",
       "image": "assets/info/img_20250315.jpg",
-      "capacity": null
+      "capacity": null,
+      "isVideo": false
     },
     {
       "title": "Chilled Forest Full Moon Healing ",
