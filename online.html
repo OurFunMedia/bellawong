@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,7 +19,57 @@
             $(function(){
                 $("#navbar").load("navbar_sub.html");
                 $("#contact").load("contact.html");
+                loadClasses();
             });
+
+            async function loadClasses() {
+                try {
+                    const response = await fetch('classes.json');
+                    const data = await response.json();
+                    displayClasses(data.classes);
+                } catch (error) {
+                    console.error('Error loading classes:', error);
+                    document.querySelector('.class-info').innerHTML = '<div class="alert alert-warning">無法載入課程資訊</div>';
+                }
+            }
+
+            function displayClasses(classes) {
+                const classInfo = document.querySelector('.class-info');
+                if (!classes || classes.length === 0) {
+                    classInfo.innerHTML = '<div class="alert alert-info">目前沒有開放的線上課程</div>';
+                    return;
+                }
+
+                classInfo.innerHTML = classes.map(classItem => `
+                    <div class="card mb-4">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                ${classItem.image ? 
+                                    classItem.isVideo ? 
+                                        `<video class="img-fluid rounded-start" controls muted>
+                                            <source src="${classItem.image}" type="video/mp4">
+                                        </video>` :
+                                        `<img src="${classItem.image}" class="img-fluid rounded-start" alt="${classItem.title}">` 
+                                    : ''}
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h3 class="card-title text-brown">${classItem.title}</h3>
+                                    <p class="card-text">
+                                        <strong>上課時間：</strong>${classItem.schedule}<br>
+                                        <strong>費用：</strong>${classItem.price}<br>
+                                        <strong>人數上限：</strong>${classItem.capacity} 人<br>
+                                    </p>
+                                    <p class="card-text text-brown-80">${classItem.description.split('\n').join('<br>')}</p>
+                                    <div class="text-end">
+                                        <a href="https://wa.me/85256016894" target="_blank" class="btn btn-primary">報名查詢</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
         </script>
     </head>
     <body id="page-top">
@@ -32,7 +81,6 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase"><br>Online<br>Class</h1>
-                        <!-- <h2 class="text-white-50 mx-auto mt-2 mb-5">Yoga combines poses, breath, meditation. Originated in ancient India, spread globally.</h2> -->
                     </div>
                 </div>
             </div>
@@ -51,56 +99,14 @@
                 </div>
                 <div class="row gx-4 gx-lg-5 justify-content-center" id="info_02">
                     <div class="col-lg-8">
-                        
-                        <h2 class="text-brown mb-4">Coming soon...</h2>
-                        <!--<p class="text-white-50">
-                            Improves flexibility, reduces stress, enhances strength, boosts balance, calms the mind, increases energy, promotes relaxation, aids in pain relief.
-                        </p>-->
-                        <!-- <img src="assets/month/201405.png" width="40%" class="img-fluid">
-                        <img src="assets/month/201406.png" width="40%" class="img-fluid">
-                        <br><br>
-                        <img src="assets/month/201407.png" width="40%" class="img-fluid">
-                        <img src="assets/month/201408.png" width="40%" class="img-fluid">
-                        <br><br>
-                        <p class="text-white-50">
-                            紅色: Sanskrit Class Session 1<br>藍色: Sanskrit Class Session 2<br>啡色: Sanskrit Class Session 3<br>橙色: Reading Club 
-                        </p> -->
+                        <h2 class="text-brown mb-4">Online Classes</h2>
+                        <div class="class-info">
+                            <!-- Classes will be loaded here -->
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Part_01 END-->
-
-        <!-- Paet_02-->
-        <!--
-        <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="assets/month/201405.png" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="assets/month/201406.png" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="assets/month/201407.png" class="d-block w-100" alt="...">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-        -->
-        <!-- Part_02 END-->
 
         <!-- Contact-->
         <div id="contact"></div>
@@ -111,4 +117,4 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
-</html>
+</html> 
