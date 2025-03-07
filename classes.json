@@ -2,12 +2,12 @@
   "classes": [
     {
       "title": "瑜伽哲學研讀",
-      "schedule": "每週二 19:00-20:30",
+      "schedule": "每週X 19:00-20:30",
       "description": "深入研讀瑜伽經典文獻，探討瑜伽哲學的核心概念。\n適合對瑜伽理論有興趣的學員。",
-      "price": "HKD 200 per class",
+      "price": "HKD XXX per class",
       "image": "assets/class/philosophy.jpg",
-      "isVideo": false,
-      "capacity": 8
+      "capacity": 8,
+      "isVideo": false
     },
     {
       "title": "線上冥想課程",
