@@ -184,7 +184,18 @@
                 }
 
                 const data = await response.json();
-                const content = decodeURIComponent(escape(atob(data.content)));
+                let content;
+                try {
+                    content = decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))));
+                } catch (e) {
+                    console.error('Base64 decode error:', e);
+                    try {
+                        content = atob(data.content.replace(/\s/g, ''));
+                    } catch (e2) {
+                        console.error('Direct decode error:', e2);
+                        throw new Error('無法解碼文件內容');
+                    }
+                }
                 const classes = JSON.parse(content);
                 displayClasses(classes);
             } catch (error) {
