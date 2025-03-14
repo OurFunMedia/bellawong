@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -29,6 +30,15 @@
         }
         .card:hover {
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .preview-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .preview-section h2 {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -55,7 +65,36 @@
                 <h2>Class Management</h2>
                 <button class="btn btn-danger" onclick="logout()">登出</button>
             </div>
-            <button class="btn btn-success mb-3" onclick="showAddClassForm()">Add New Class</button>
+
+            <!-- 添加預覽部分 -->
+            <div class="preview-section">
+                <h2>課程預覽（實際顯示效果）</h2>
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100" id="class_01">
+                            <div class="card-body text-center">
+                                <!-- Class content will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100" id="class_02">
+                            <div class="card-body text-center">
+                                <!-- Class content will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100" id="class_03">
+                            <div class="card-body text-center">
+                                <!-- Class content will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success mb-3 mt-4" onclick="showAddClassForm()">Add New Class</button>
             
             <div id="classForm" style="display: none;" class="mb-4">
                 <h3>Class Form</h3>
@@ -128,6 +167,7 @@
             </div>
 
             <div id="classList" class="mt-4">
+                <h3>課程管理列表</h3>
                 <!-- Classes will be listed here -->
             </div>
         </div>
@@ -205,6 +245,40 @@
             }
         }
 
+        function updateClassCard(cardElement, classData) {
+            const cardBody = cardElement.querySelector('.card-body');
+            if (cardBody) {
+                cardBody.innerHTML = `
+                    ${classData.image ? `<img class="img-fluid" src="${classData.image}" alt="Bella Wong"><br><br>` : ''}
+                    <h3 class="text-uppercase m-0">${classData.title}</h3><br>
+                    <h4>${classData.subtitle}</h4>
+                    <hr class="my-4 mx-auto" />
+                    <div class="small text-black-50">
+                        ${marked.parse(classData.description)}
+                        <br><br>
+                        Contact me<br>
+                        <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a>
+                        <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a>
+                        <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a>
+                        <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
+                    </div>
+                `;
+            }
+        }
+
+        function updatePreviewCards(classes) {
+            // 更新預覽卡片
+            if (classes[0]) {
+                updateClassCard(document.getElementById('class_01'), classes[0]);
+            }
+            if (classes[1]) {
+                updateClassCard(document.getElementById('class_02'), classes[1]);
+            }
+            if (classes[2]) {
+                updateClassCard(document.getElementById('class_03'), classes[2]);
+            }
+        }
+
         function displayClasses(classes) {
             const classList = document.getElementById('classList');
             if (!classes.classes || classes.classes.length === 0) {
@@ -212,18 +286,25 @@
                 return;
             }
             
-            classList.innerHTML = classes.classes.map((classItem, index) => `
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">${classItem.title || '無標題'}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">${classItem.subtitle || ''}</h6>
-                        ${classItem.image ? `<img src="${classItem.image}" class="preview-image mb-2" onerror="this.style.display='none'">` : ''}
-                        <div class="markdown-content">${marked.parse(classItem.description || '')}</div>
-                        <button class="btn btn-warning" onclick="editClass(${index})">編輯</button>
-                        <button class="btn btn-danger" onclick="deleteClass(${index})">刪除</button>
+            // 更新管理列表
+            classList.innerHTML = `
+                <h3>課程管理列表</h3>
+                ${classes.classes.map((classItem, index) => `
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${classItem.title || '無標題'}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${classItem.subtitle || ''}</h6>
+                            ${classItem.image ? `<img src="${classItem.image}" class="preview-image mb-2" onerror="this.style.display='none'">` : ''}
+                            <div class="markdown-content">${marked.parse(classItem.description || '')}</div>
+                            <button class="btn btn-warning" onclick="editClass(${index})">編輯</button>
+                            <button class="btn btn-danger" onclick="deleteClass(${index})">刪除</button>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('')}
+            `;
+
+            // 更新預覽卡片
+            updatePreviewCards(classes.classes);
         }
 
         async function saveClasses(classes) {
@@ -277,6 +358,7 @@
                 }
 
                 console.log('Save successful:', responseData);
+                displayClasses(classes);  // 更新both管理列表和預覽
                 return true;
             } catch (error) {
                 console.error('Error saving classes:', error);
@@ -576,6 +658,12 @@
         if (githubToken) {
             showAdminPanel();
         }
+
+        // 添加 Font Awesome 圖標
+        const fontAwesomeScript = document.createElement('script');
+        fontAwesomeScript.src = 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
+        fontAwesomeScript.crossOrigin = 'anonymous';
+        document.head.appendChild(fontAwesomeScript);
     </script>
 </body>
 </html> 
