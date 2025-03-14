@@ -62,7 +62,7 @@
 
         <div id="adminPanel" style="display: none;">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Class Management</h2>
+                <h2>課程管理</h2>
                 <button class="btn btn-danger" onclick="logout()">登出</button>
             </div>
 
@@ -296,7 +296,6 @@
                             ${classItem.image ? `<img src="${classItem.image}" class="preview-image mb-2" onerror="this.style.display='none'">` : ''}
                             <div class="markdown-content">${marked.parse(classItem.description || '')}</div>
                             <button class="btn btn-warning" onclick="editClass(${index})">編輯</button>
-                            <button class="btn btn-danger" onclick="deleteClass(${index})">刪除</button>
                         </div>
                     </div>
                 `).join('')}
@@ -430,33 +429,6 @@
             } catch (error) {
                 console.error('Error loading class for edit:', error);
                 alert('Failed to load class for editing');
-            }
-        }
-
-        async function deleteClass(index) {
-            if (!confirm('Are you sure you want to delete this class?')) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`https://api.github.com/repos/${repo}/contents/classes.json`, {
-                    headers: {
-                        'Authorization': `token ${githubToken}`
-                    }
-                });
-                const data = await response.json();
-                const content = decodeURIComponent(escape(atob(data.content)));
-                const classes = JSON.parse(content);
-                
-                classes.classes.splice(index, 1);
-                
-                if (await saveClasses(classes)) {
-                    await loadClasses();
-                    alert('Class deleted successfully');
-                }
-            } catch (error) {
-                console.error('Error deleting class:', error);
-                alert('Failed to delete class');
             }
         }
 
