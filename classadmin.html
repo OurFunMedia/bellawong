@@ -174,7 +174,7 @@
     </div>
 
     <script>
-        const repo = 'your-username/your-repo';  // 請替換為您的 GitHub 倉庫
+        const repo = 'OurFunMedia/bellawong';  // 設置為您的 GitHub 倉庫
         const branch = 'main';  // 或您的默認分支名稱
         let githubToken = localStorage.getItem('githubToken');
         let fileBrowserModal = null;
@@ -310,7 +310,7 @@
         async function saveClasses(classes) {
             try {
                 // 檢查 repo 設置
-                if (!repo || repo === 'OurFunMedia/bellawong') {
+                if (!repo || repo === 'your-username/your-repo') {
                     throw new Error('請先設置正確的 GitHub 倉庫名稱');
                 }
 
