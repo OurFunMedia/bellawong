@@ -310,7 +310,7 @@
         async function saveClasses(classes) {
             try {
                 // 檢查 repo 設置
-                if (!repo || repo === 'your-username/your-repo') {
+                if (!repo) {
                     throw new Error('請先設置正確的 GitHub 倉庫名稱');
                 }
 
