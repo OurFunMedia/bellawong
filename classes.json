@@ -1,22 +1,22 @@
 {
-  "classes": [
-    {
-      "title": "瑜伽哲學研讀",
-      "schedule": "每週X 19:00-20:30",
-      "description": "深入研讀瑜伽經典文獻，探討瑜伽哲學的核心概念。\n適合對瑜伽理論有興趣的學員。",
-      "price": "HKD XXX per class",
-      "image": "assets/class/philosophy.jpg",
-      "capacity": 8,
-      "isVideo": false
-    },
-    {
-      "title": "線上冥想課程",
-      "schedule": "每週X 20:00-21:00",
-      "description": "通過線上平台學習各種冥想技巧。\n適合所有程度的學員。",
-      "price": "HKD XXX per class",
-      "image": "assets/class/meditation.jpg",
-      "capacity": 12,
-      "isVideo": false
-    }
-  ]
-}
+    "classes": [
+        {
+            "title": "Private Yoga Therapy",
+            "subtitle": "Personalized program to achieve wellness goal",
+            "description": "Yoga therapy is for anyone suffering from joint and muscle issues. respiratory troubles, sleeping problems, immune system dysfunction, stress, or mood irregularities.Personalized program to help you achieve your health and wellness goals.",
+            "image": "assets/class/class.jpg"
+        },
+        {
+            "title": "Private Yoga Class",
+            "subtitle": "Improve yoga posture and mobility",
+            "description": "Each person has unique body joints and constitutions. This class aims to alleviate pain and provide advanced exercises in private sessions to improve posture and enhance mobility.",
+            "image": "assets/class/bella_wong.jpg"
+        },
+        {
+            "title": "Group Yoga Class",
+            "subtitle": "Motivational vibes from group class",
+            "description": "Yoga movement classes offer personal or group guidance for improving bodily and mental wellbeing. I offer beginner and advanced group class, check out my schedule.",
+            "image": "assets/class/teacher.jpg"
+        }
+    ]
+} 

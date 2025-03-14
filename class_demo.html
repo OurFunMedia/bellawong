@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Bella Wong</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script> 
+            $(function(){
+                $("#navbar").load("navbar_sub.html");
+                $("#contact").load("contact_mini.html");
+                loadClasses();
+            });
+
+            async function loadClasses() {
+                try {
+                    const response = await fetch('classes.json');
+                    const data = await response.json();
+                    displayClasses(data.classes);
+                } catch (error) {
+                    console.error('Error loading classes:', error);
+                }
+            }
+
+            function displayClasses(classes) {
+                if (!classes || classes.length === 0) {
+                    return;
+                }
+
+                // 更新第一個課程卡片
+                if (classes[0]) {
+                    const class01 = document.getElementById('class_01');
+                    if (class01) {
+                        updateClassCard(class01, classes[0]);
+                    }
+                }
+
+                // 更新第二個課程卡片
+                if (classes[1]) {
+                    const class02 = document.getElementById('class_02');
+                    if (class02) {
+                        updateClassCard(class02, classes[1]);
+                    }
+                }
+
+                // 更新第三個課程卡片
+                if (classes[2]) {
+                    const class03 = document.getElementById('class_03');
+                    if (class03) {
+                        updateClassCard(class03, classes[2]);
+                    }
+                }
+            }
+
+            function updateClassCard(cardElement, classData) {
+                const cardBody = cardElement.querySelector('.card-body');
+                if (cardBody) {
+                    cardBody.innerHTML = `
+                        ${classData.image ? `<img class="img-fluid" src="${classData.image}" alt="Bella Wong"><br><br>` : ''}
+                        <h3 class="text-uppercase m-0">${classData.title}</h3><br>
+                        <h4>${classData.subtitle}</h4>
+                        <hr class="my-4 mx-auto" />
+                        <div class="small text-black-50">
+                            ${marked.parse(classData.description)}
+                            <br><br>
+                            Contact me<br>
+                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a>
+                            <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a>
+                            <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a>
+                            <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
+                        </div>
+                    `;
+                }
+            }
+        </script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <div id="navbar"></div>
+        <!-- Masthead-->
+        <header class="masthead masthead_bg_02">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h1 class="mx-auto my-0 text-uppercase"><br>Class</h1>
+                        <!-- <h2 class="text-white-50 mx-auto mt-2 mb-5">Through yoga therapy, we balance our body elements.</h2> -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Part_01-->
+        <section class="part_01-section text-center">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center" id="info_01">
+                    <div class="col-lg-8">
+                        <!-- <h2 class="text-brown mb-4">Class</h2> -->
+                        <p class="text-brown-80">
+                            Wellbeing requires caring for both the body and the mind.
+                            <br><br>
+                            Holistic healthcare brings light into our lives to shine inside and out.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Part_01 END-->
+
+        <!-- Part_02-->
+        <section class="part_02-section bg-light" id="part_02">
+            <div class="container px-4 px-lg-5">
+                <!-- Featured Project Row-->
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                        <!-- <p class="text-brown-80">
+                            Wellbeing requires caring for both the body and the mind. Holistic healthcare brings light into our lives to shine inside and out.
+                        </p> -->
+                    </div>
+                </div>
+                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/img_movement.jpg" alt="Bella Wong"></div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="featured-text text-center text-lg-left">
+                            <h3 class="text-brown">Holistic Yoga Learning</h3>
+                            <h5>Why do we need comprehensive study and practice of yoga?</h5>
+                            <hr class="my-4 mx-auto" />
+                            <p class="text-brown-80 mb-0">Yoga improves mind and body flexibility, strength, and pain relief. Further, yoga teaches balance and harmony in life, attracting beautiful things and people!</p>
+                            <br>
+                            <!--<a class="text-black-80" href="page02.html">More Information</a>-->
+
+                            <div class="accordion accordion-flush" id="accordionFlush01">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                            More Information <i class="fa-solid fa-circle-chevron-down"></i>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            Our bodies and minds are intimately connected. Our learning and practice of health should reflect this. Holistic yoga practice and study may include
+                                            <br>• Movement: Strength, mobility, flexibility, pain relief, willpower
+                                            <br>• Breathwork: Lung and heart health, relaxation, clarity of mind, rejuvenation
+                                            <br>• Meditation: Concentration, motivation, insight, self-knowledge
+                                            <br>• Sound healing (singing bowls): Relaxation, improved sleep quality, inner peace
+                                            <br>• Chanting: Setting intentions, emotional release, improved mood
+                                            <br>• Diet advice: Improved digestion and immunity, balance energy
+                                            <br>• Philosophy: Understanding values and purpose of life
+                                            <br>Depending on your individual needs and goals, I will lead you in a personalized program of practice and learning.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Part_02 END-->
+
+        <!-- Classes-->
+        <section class="contact-section bg-light" id="class">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100" id="class_01">
+                            <div class="card-body text-center">
+                                <!-- <i class="fas fa-map-marked-alt text-primary mb-2"></i> -->
+                                <!-- Class content will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100" id="class_02">
+                            <div class="card-body text-center">
+                                <!--<i class="fas fa-envelope text-primary mb-2"></i>-->
+                                <!-- <i class="fab fa-instagram text-primary mb-2"></i> -->
+                                <!-- Class content will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100" id="class_03">
+                            <div class="card-body text-center">
+                                <!--<i class="fas fa-mobile-alt text-primary mb-2"></i>-->
+                                <!-- <i class="fa-brands fa-whatsapp text-primary mb-2"></i> -->
+                                <!-- Class content will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <img src="assets/info/weekly.jpg" class="img-fluid" width="100%">
+                    </div>
+                </div> -->
+            </div>
+        </section>
+        <!-- Contact-->
+        <div id="contact"></div>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
