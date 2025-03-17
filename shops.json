@@ -1,0 +1,46 @@
+{
+  "shops": [
+    {
+      "title": "Nepal Singing Bowl",
+      "description": "The singing bowl is a metal bowl often used in spiritual or religious settings to invoke meditation or relaxation through the resounding vibrations and pleasant sounds it emanates when played.",
+      "price": "HKG$1800-/Set",
+      "video": "assets/shop/set_01.mp4",
+      "image": "assets/shop/set_01.jpg",
+      "category": "singing_bowl"
+    },
+    {
+      "title": "Perfect Pitch A3 Bowl",
+      "description": "Perfect Pitch A3 Bowl",
+      "price": "HKG$1400-",
+      "video": "assets/shop/a3.mp4",
+      "image": "assets/shop/a3.jpg",
+      "category": "singing_bowl"
+    },
+    {
+      "title": "Perfect Pitch D3 bowl",
+      "description": "Perfect Pitch D3 bowl",
+      "price": "HKG$1600",
+      "video": "assets/shop/d3.mp4",
+      "image": "assets/shop/d3.jpg",
+      "category": "singing_bowl"
+    },
+    {
+      "title": "Thickness and resonance strength G3 Bowl",
+      "description": "Thickness and resonance strength G3 Bowl",
+      "price": "HKG$1600",
+      "video": "assets/shop/g3.mp4",
+      "image": "assets/shop/g3.jpg",
+      "category": "singing_bowl"
+    },
+    {
+      "title": "Ayurveda Herbal",
+      "description": "Coming Soon",
+      "category": "herbal"
+    },
+    {
+      "title": "Spiritual Accessory",
+      "description": "Coming Soon",
+      "category": "accessory"
+    }
+  ]
+} 
