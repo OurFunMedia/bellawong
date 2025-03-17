@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,7 +19,59 @@
             $(function(){
                 $("#navbar").load("navbar_sub.html");
                 $("#contact").load("contact.html");
+                loadShops();
             });
+
+            async function loadShops() {
+                try {
+                    const response = await fetch('shops.json');
+                    const data = await response.json();
+                    displayShops(data.shops);
+                } catch (error) {
+                    console.error('Error loading shops:', error);
+                }
+            }
+
+            function displayShops(shops) {
+                const container = document.querySelector('#part_02 .container');
+                let html = '';
+                
+                shops.forEach(shop => {
+                    html += `
+                        <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                            ${shop.video ? `
+                                <div class="col-xl-8 col-lg-7">
+                                    <video width="90%" controls>
+                                        <source src="${shop.video}" type="video/mp4">
+                                    </video>
+                                </div>
+                            ` : ''}
+                            <div class="col-xl-4 col-lg-5">
+                                <div class="featured-text text-center text-lg-left">
+                                    <h4 class="text-brown">${shop.title}</h4>
+                                    <p class="text-brown-80 mb-0">
+                                        ${shop.description}
+                                        ${shop.price ? `<br><br>${shop.price}` : ''}
+                                    </p>
+                                    ${shop.image ? `
+                                        <br><br>
+                                        <img class="img-fluid mb-3 mb-lg-0" src="${shop.image}" width="80%" alt="${shop.title}" />
+                                        <br><br>
+                                    ` : ''}
+                                    <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a>
+                                    <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a>
+                                    <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a>
+                                    <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            }
         </script>
     </head>
     <body id="page-top">
@@ -32,7 +83,6 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">Shop</h1>
-                        <!-- <h2 class="text-white-50 mx-auto mt-2 mb-5">Yoga combines poses, breath, meditation. Originated in ancient India, spread globally.</h2> -->
                     </div>
                 </div>
             </div>
@@ -41,151 +91,9 @@
         <!-- Part_02-->
         <section class="part_02-section bg-light" id="part_02">
             <div class="container px-4 px-lg-5">
-                <!-- Featured Project Row-->
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7">
-                        <video width="90%" controls>
-                            <source src="assets/shop/set_01.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h4 class="text-brown">Nepal Singing Bowl</h4>
-                            <p class="text-brown-80 mb-0">
-                                The singing bowl is a metal bowl often used in spiritual or religious settings to invoke meditation or relaxation through the resounding vibrations and pleasant sounds it emanates when played.
-                                <br><br>
-                                HKG$1800-/Set 
-                            </p>
-                            <br><br>
-                            <img class="img-fluid mb-3 mb-lg-0" src="assets/shop/set_01.jpg" width="80%" alt="..." />
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <br>
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7">
-                        <video width="90%" controls>
-                            <source src="assets/shop/a3.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h4 class="text-brown"></h4>
-                            <p class="text-brown-80 mb-0">
-                                Perfect Pitch A3 Bowl 
-                                 <br><br>
-                                HKG$1400- 
-                            </p>
-                            <br><br>
-                            <img class="img-fluid mb-3 mb-lg-0" src="assets/shop/a3.jpg" width="80%" alt="..." />
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <br>
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7">
-                        <video width="90%" controls>
-                            <source src="assets/shop/d3.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h4 class="text-brown"></h4>
-                            <p class="text-brown-80 mb-0">
-                                Perfect Pitch D3 bowl
-                                <br><br>
-                                HKG$1600
-                            </p>
-                            <br><br>
-                            <img class="img-fluid mb-3 mb-lg-0" src="assets/shop/d3.jpg" width="80%" alt="..." />
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <br>
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7">
-                        <video width="90%" controls>
-                            <source src="assets/shop/g3.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h4 class="text-brown"></h4>
-                            <p class="text-brown-80 mb-0">
-                                Thickness and resonance strength G3 Bowl
-                                <br><br>
-                                HKG$1600
-                            </p>
-                            <br><br>
-                            <img class="img-fluid mb-3 mb-lg-0" src="assets/shop/g3.jpg" width="80%" alt="..." />
-                            <br><br>
-                            <a href="mailto:info@bella-wong.com"><i class="fa-solid fa-envelope text-primary" style="font-size: 2em;"></i></a> <a href="https://www.facebook.com/bellaw1140?mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook text-primary" style="font-size: 2em;"></i></a> <a href="https://www.instagram.com/bella_wong1140?igsh=NTMwdzFtOGxnMWpr" target="_blank"><i class="fa-brands fa-instagram text-primary" style="font-size: 2em;"></i></a> <a href="https://wa.me/85256016894" target="_blank"><i class="fa-brands fa-whatsapp text-primary" style="font-size: 2em;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-
-
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><h4 class="text-brown">Ayurveda Herbal</h4></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <p class="text-brown-80 mb-0">Coming Soon</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><h4 class="text-brown">Spiritual Accessory</h4></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <p class="text-brown-80 mb-0">Coming Soon</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- Shops will be dynamically loaded here -->
             </div>
         </section>
-
-        <!-- Part_01
-        <section class="part_01-section text-center">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center" id="info_01">
-                    <div class="col-lg-8">
-                        <h2 class="text-white mb-4"></h2>
-                        <p class="text-white-50">
-                            <video width="75%" autoplay muted>
-                                <source src="assets/video/video_2024-04-15_02.mp4" type="video/mp4">
-                            </video>
-                        </p>
-                    </div>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center" id="info_02">
-                    <div class="col-lg-8">
-                        <h2 class="text-white mb-4">Workshop</h2>
-                        <p class="text-white-50">
-                            Improves flexibility, reduces stress, enhances strength, boosts balance, calms the mind, increases energy, promotes relaxation, aids in pain relief.
-                        </p>
-                    </div>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center" id="info_03">
-                    <div class="col-lg-8">
-                        <h2 class="text-white mb-4">Retreat</h2>
-                        <p class="text-white-50">
-                            Improves flexibility, reduces stress, enhances strength, boosts balance, calms the mind, increases energy, promotes relaxation, aids in pain relief.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        Part_01 END-->
 
         <!-- Contact-->
         <div id="contact"></div>
