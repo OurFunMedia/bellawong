@@ -85,12 +85,18 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Video URL</label>
-                        <input type="text" class="form-control" id="shopVideo">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="shopVideo">
+                            <button class="btn btn-info" type="button" onclick="loadFileList('video')">瀏覽</button>
+                        </div>
                         <small class="form-text text-muted">產品視頻的 URL</small>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Image URL</label>
-                        <input type="text" class="form-control" id="shopImage">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="shopImage">
+                            <button class="btn btn-info" type="button" onclick="loadFileList('image')">瀏覽</button>
+                        </div>
                         <small class="form-text text-muted">產品圖片的 URL</small>
                     </div>
                     <div class="mb-3">
@@ -152,6 +158,8 @@
         const branch = 'main';
 
         let fileBrowserModal;
+        let selectedFiles = [];
+        let currentFileType = null;
 
         document.addEventListener('DOMContentLoaded', async function() {
             fileBrowserModal = new bootstrap.Modal(document.getElementById('fileBrowserModal'));
@@ -557,10 +565,8 @@
             alert(`${message}: ${error.message}`);
         }
 
-        // 添加新的文件瀏覽相關函數
-        let selectedFiles = [];
-
-        async function loadFileList() {
+        async function loadFileList(fileType) {
+            currentFileType = fileType;
             try {
                 const response = await fetch(`https://api.github.com/repos/${repo}/contents/assets/shop`, {
                     headers: {
@@ -570,15 +576,22 @@
                 const files = await response.json();
                 
                 const fileList = document.getElementById('fileList');
-                fileList.innerHTML = files.map(file => `
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                ${file.type === 'file' ? `
+                fileList.innerHTML = files.map(file => {
+                    if (file.type !== 'file') return '';
+                    
+                    const isCorrectType = fileType === 'video' ? 
+                        isVideoFile(file.name) : isImageFile(file.name);
+                    
+                    if (!isCorrectType) return '';
+                    
+                    return `
+                        <div class="col-md-4 mb-3">
+                            <div class="card file-card">
+                                <div class="card-body">
                                     <div class="form-check">
-                                        <input class="form-check-input file-select" type="checkbox" 
-                                               value="assets/shop/${file.name}" id="file-${file.name}"
-                                               data-file-type="${getFileType(file.name)}">
+                                        <input class="form-check-input file-select" type="radio" 
+                                               name="fileSelect" value="assets/shop/${file.name}" 
+                                               id="file-${file.name}">
                                         <label class="form-check-label" for="file-${file.name}">
                                             ${file.name}
                                         </label>
@@ -590,11 +603,11 @@
                                             <source src="assets/shop/${file.name}" type="video/mp4">
                                         </video>
                                     ` : ''}
-                                ` : ''}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
 
                 // 添加文件搜索功能
                 document.getElementById('fileSearch').addEventListener('input', function(e) {
@@ -613,24 +626,17 @@
         }
 
         function useSelectedFiles() {
-            const selectedCheckboxes = document.querySelectorAll('.file-select:checked');
-            const selectedFiles = Array.from(selectedCheckboxes).map(cb => ({
-                path: cb.value,
-                type: cb.dataset.fileType
-            }));
-
-            if (selectedFiles.length === 0) {
-                alert('Please select at least one file');
+            const selectedFile = document.querySelector('input[name="fileSelect"]:checked');
+            if (!selectedFile) {
+                alert('請選擇一個文件');
                 return;
             }
 
-            if (selectedFiles.length === 1) {
-                // 單個文件：設置為主圖或視頻
-                if (selectedFiles[0].type === 'video') {
-                    document.getElementById('shopVideo').value = selectedFiles[0].path;
-                } else {
-                    document.getElementById('shopImage').value = selectedFiles[0].path;
-                }
+            const filePath = selectedFile.value;
+            if (currentFileType === 'video') {
+                document.getElementById('shopVideo').value = filePath;
+            } else {
+                document.getElementById('shopImage').value = filePath;
             }
 
             fileBrowserModal.hide();
