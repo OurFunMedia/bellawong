@@ -80,6 +80,9 @@
                     <div class="mb-3">
                         <label class="form-label">圖片/影片 URL</label>
                         <input type="text" class="form-control" id="classImage" required>
+                        <small class="form-text text-muted">
+                            請上傳新的圖片/影片，或點擊下方的「瀏覽檔案」按鈕選擇已上傳的檔案重複使用。
+                        </small>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">上傳檔案</label>
@@ -565,9 +568,9 @@
                                 ${file.type === 'file' ? `
                                     <div class="form-check">
                                         <input class="form-check-input file-select" type="radio" 
-                                               name="fileSelect" value="assets/online/${file.name}" 
-                                               id="file-${file.name}"
-                                               data-file-type="${getFileType(file.name)}">
+                                            name="fileSelect" value="assets/online/${file.name}" 
+                                            id="file-${file.name}"
+                                            data-file-type="${getFileType(file.name)}">
                                         <label class="form-check-label" for="file-${file.name}">
                                             ${file.name}
                                         </label>
