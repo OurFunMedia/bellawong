@@ -20,6 +20,15 @@
       "image": "assets/online/meditation.jpg",
       "isVideo": false,
       "capacity": 10
+    },
+    {
+      "title": "Test",
+      "schedule": "Mon to Fri",
+      "description": "Demo",
+      "price": "Free",
+      "image": "assets/online/meditation.jpg",
+      "capacity": 1,
+      "isVideo": false
     }
   ]
-} 
+}
