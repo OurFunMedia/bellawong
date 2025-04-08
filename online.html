@@ -24,17 +24,18 @@
 
             async function loadClasses() {
                 try {
-                    const response = await fetch('classes.json');
+                    const response = await fetch('online.json');
                     const data = await response.json();
                     displayClasses(data.classes);
                 } catch (error) {
-                    console.error('Error loading classes:', error);
+                    console.error('Error loading online classes:', error);
                     document.querySelector('.class-info').innerHTML = '<div class="alert alert-warning">無法載入課程資訊</div>';
                 }
             }
 
             function displayClasses(classes) {
                 const classInfo = document.querySelector('.class-info');
+                classInfo.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">載入中...</span></div>';
                 if (!classes || classes.length === 0) {
                     classInfo.innerHTML = '<div class="alert alert-info">目前沒有開放的線上課程</div>';
                     return;

@@ -1,0 +1,25 @@
+{
+  "classes": [
+    {
+      "title": "瑜伽哲學研讀",
+      "schedule": "每週二 19:00-20:30",
+      "description": "深入研讀瑜伽經典文獻，探討瑜伽哲學的核心概念。\n適合對瑜伽理論有興趣的學員。",
+      "price": "HKD 200 per class",
+      "image": "assets/online/philosophy.jpg",
+      "isVideo": false,
+      "capacity": 8,
+      "level": "中級",
+      "instructor": "Bella Wong",
+      "requirements": "需要基本瑜伽知識"
+    },
+    {
+      "title": "線上冥想課程",
+      "schedule": "每週四 20:00-21:00",
+      "description": "通過線上平台學習各種冥想技巧。\n適合所有程度的學員。",
+      "price": "HKD 150 per class",
+      "image": "assets/online/meditation.jpg",
+      "isVideo": false,
+      "capacity": 10
+    }
+  ]
+} 
